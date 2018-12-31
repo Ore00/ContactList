@@ -9,14 +9,15 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-3"><h2>Contacts</h2></div>
-        <div class="input-group mb-3 align-content-sm-end col-sm-9 float-sm-right" >
+        <div id="pageLabel" class="col-sm-2"><h2>Contacts</h2></div>
+        <div id="pageLabel" class="col-sm-1"></div>
+        <div id="searchBox" class="input-group mb-3 text-right col-sm-8" >
             <div class="input-group-prepend">
-                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#personModal" onclick="resetForm();">Add a Contact</button>
+                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#personModal" onclick="resetForm();">Add</button>
             </div>
             <input id="search" type="text" class="form-control col-sm-3 float-right" alt="Search by First or Last name" placeholder="Search ..." onchange="loadFilterdData();" />
-            <div class="input-group-prepend">
-                @*<button type="button"><i class="fa fa-search-minus"></i></button>*@
+            <div class="input-group-append">
+                <button type="button">Q</button>
             </div>
         </div>
     </div> 

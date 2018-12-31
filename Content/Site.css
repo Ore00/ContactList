@@ -13,6 +13,7 @@ footer{
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 40px;
+
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
@@ -24,6 +25,9 @@ textarea {
 label {   
     margin: 0px 5px 0px 5px;
 }
+.container{
+    min-width: 800px;
+}
 .modal-body {
     margin: 5px 15px 5px 10px;
 }
@@ -32,6 +36,9 @@ label {
 }
 #sysStatus{
     padding: 10px 5px 10px 5px;
+}
+#pageLabel{
+    padding-right: 20px;
 }
 
 /* width */
