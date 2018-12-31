@@ -8,17 +8,18 @@
 }
 
 <div class="container">
-    <h2>Persons</h2>
-    <div class="input-group mb-3">
-        <div class="input-group-prepend">
-            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#personModal" onclick="resetForm();">Add a Contact</button>
+    <div class="row">
+        <div class="col-sm-3"><h2>Contacts</h2></div>
+        <div class="input-group mb-3 align-content-sm-end col-sm-9 float-sm-right" >
+            <div class="input-group-prepend">
+                <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#personModal" onclick="resetForm();">Add a Contact</button>
+            </div>
+            <input id="search" type="text" class="form-control col-sm-3 float-right" alt="Search by First or Last name" placeholder="Search ..." onchange="loadFilterdData();" />
+            <div class="input-group-prepend">
+                @*<button type="button"><i class="fa fa-search-minus"></i></button>*@
+            </div>
         </div>
-        <input id="search" type="text" class="form-control col-sm-3 float-right" onchange="loadFilterdData();" />
-        <div class="input-group-prepend">
-            <button type="button"><i class="fa fa-search-minus"></i></button>
-        </div>
-    </div>
-        
+    </div> 
     <div id="mainStatus" role="alert"></div>
     <table id="personGrid" class="table table-bordered table-striped table-hover table-responsive-sm">
         <thead class="thead-dark">
@@ -102,8 +103,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add()">Add</button>
-                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update()">Update</button>
+                <button type="button" class="btn btn-outline-dark" id="btnAdd" onclick="return Add()">Add</button>
+                <button type="button" class="btn btn-outline-dark" id="btnUpdate" style="display:none;" onclick="Update()">Update</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetForm()">Close</button>
             </div>
         </div>

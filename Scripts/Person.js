@@ -1,6 +1,11 @@
 ﻿//Load the Person Data in the table
 $(document).ready(function () {
-    loadData();   
+    if ($('#search').val() != "") {
+        loadFilterdData();
+    }
+    else {
+        loadData();
+    }
 });
 
 //Loading Data Function
@@ -24,7 +29,7 @@ function loadData() {
                 var thisDate = new Date(parseInt(item.dob.substr(6)));                
                 tblBody += '<td>' + item.gender + '</td>';
                 tblBody += '<td>' + thisDate.toLocaleDateString() + '</td>';
-                tblBody += '<td><a href="#" onclick="return getByID(' + item.person_id + ')">Edit</a></td>';  
+                tblBody += '<td><a href="#" class="btn btn-outline-dark" onclick="return getByID(' + item.person_id + ')">Edit</a></td>';  
                 tblBody += '</tr>';
             });
             $('.tbody').html(tblBody);
@@ -56,7 +61,7 @@ function loadFilterdData(){
                     var thisDate = new Date(parseInt(item.dob.substr(6)));
                     tblBody += '<td>' + item.gender + '</td>';
                     tblBody += '<td>' + thisDate.toLocaleDateString() + '</td>';
-                    tblBody += '<td><a href="#" onclick="return getByID(' + item.person_id + ')">Edit</a></td>';
+                    tblBody += '<td><a href="#" class="btn btn-outline-dark" onclick="return getByID(' + item.person_id + ')">Edit</a></td>';
                     tblBody += '</tr>';
                 });
                 $('.tbody').html(tblBody);
@@ -66,6 +71,8 @@ function loadFilterdData(){
                 alert(errormessage.responseText);
             }
         });
+    } else {
+        loadData();
     }
 }
 //Add Person
@@ -92,11 +99,10 @@ function Add() {
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         success: function (result) {
-            loadData();
-           
-    $('#personModal').modal('hide');   
-    resetForm();
-
+            loadData();  
+             resetForm();
+            $('#personModal').modal('hide'); 
+            $('.modal-backdrop').remove();  
             setStatus("mainStatus", "alert alert-success alert-dismissible", "Person added!");
         },
         error: function (errormessage) {
@@ -181,40 +187,50 @@ function getByID(personID) {
 function getStateByID(stateID) {    
     
     var stateCode;
-    $.ajax({        
-        url: "Home/GetStateByID/" + stateID,
-        type: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {          
-          stateCode = result.state_code;         
-        },
-        error: function (errormessage) {
-            
-            alert(errormessage.responseText);
-        }
-    });
+    if (stateCode != "") {
+        $.ajax({
+            url: "Home/GetStateByID/" + stateID,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                stateCode = result.state_code;
+            },
+            error: function (errormessage) {
+
+                alert(errormessage.responseText);
+            }
+        });
+    } else {
+        return undefined;
+    }
     return stateCode;
 }
 //Get the State ID using the State Code
 function getStateIDByCode(stateCode) {
-  
+
     var stateID;
-    $.ajax({
-        url: "Home/GetStateByCode/?Code=" + stateCode ,         
-        type: "GET",
-        contentType: "application/json;charset=utf-8",
-        dataType: "json",
-        async: false,
-        success: function (result) {
-            stateID = result.state_id;
-        },
-        error: function (errormessage) {           
-          
-            alert(errormessage.responseText);
-        }
-    });
+    if (stateID != "") {
+        $.ajax({
+            url: "Home/GetStateByCode/?Code=" + stateCode,
+            type: "GET",
+            contentType: "application/json;charset=utf-8",
+            dataType: "json",
+            async: false,
+            success: function (result) {
+                stateID = result.state_id;
+            },
+            error: function (errormessage) {
+
+                //alert(errormessage.responseText);
+                setStatus("mainStatus", "alert alert-info  alert-dismissible", errormessage.responseText);
+            }
+        });
+    } else {
+        return undefined;
+    }
+    
     return stateID;
 }
 //validate if State exist in list
@@ -234,7 +250,7 @@ function validate() {
     $("input").each(function () {
        
         if ($(this).val().trim() === "" && (this.id !== "search" && this.id !== "state_id" && this.id !== "person_id" && this.id !== "genderFemale" && this.id !== "genderMale" )) {
-            alert(this.id);            
+                   
             resetBorderColor(this.id, 'Red');
             isValid = false;
         } else {            
@@ -250,11 +266,14 @@ function validate() {
         resetBorderColor('genderMaleLabel', 'lightblue');
         resetBorderColor('genderFemaleLabel', 'lightblue');
     }
-
-    if (!StateIsValid($('#state_id').val())) {
+    if ($("#state_id").val().trim() == "") {
         isValid = false;
         resetBorderColor('state_id', 'red');
-        setStatus("formStatus", "alert alert-danger alert-dismissible", "Enter a valid State");
+       } else {
+        if (!StateIsValid($('#state_id').val())) {
+            setStatus("formStatus", "alert alert-danger alert-dismissible", "Enter a valid State");
+             isValid = false;
+        }
     }
     return isValid;
 }
