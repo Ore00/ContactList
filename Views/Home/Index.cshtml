@@ -1,0 +1,108 @@
+﻿@model ContactList.Models.States
+<script src="~/Scripts/jquery-3.0.0.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/Person.js"></script>
+@{
+    ViewBag.Title = "Index";      
+}
+
+<div class="container">
+    <h2>Persons</h2>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#personModal" onclick="resetForm();">Add a Contact</button>
+        </div>
+        <input  id="search" type="text" class="form-control col-sm-3 float-right" onchange="loadFilterdData();"  />
+    </div>
+        
+    <div id="mainStatus" role="alert"></div>
+    <table id="personGrid" class="table table-bordered table-striped table-hover table-responsive-sm">
+        <thead class="thead-dark">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>State</th>
+                <th>Gender</th>
+                <th>DOB</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody class="tbody">
+
+        </tbody>
+        
+    </table>
+</div>
+<div class="modal fade" id="personModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title" id="myModalLabel">Person</h4>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body">
+                <div id="formStatus"></div>
+                <form name="upsertPerson" id="upsertPerson">
+                    <div class="input-group mb-3">
+                       
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">ID</span>
+                        </div>
+                        <input type="text" class="form-control" id="person_id" placeholder="Id" readonly="readonly"/>
+                    </div>
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Name</span>
+                        </div>
+                      
+                        <input type="text" class="form-control" id="first_name" placeholder="First Name" maxlength="50" />
+                    
+                        <input type="text" class="form-control" id="last_name" placeholder="Last Name" maxlength="50" />
+                    </div>
+
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Gender</span>
+                        </div>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input id="genderMale" name="gender" value="M" type="radio">
+                            </div>
+                        </div>
+                        
+                        <span class="form-control" id="genderMaleLabel"> Male </span>
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <input id="genderFemale" name="gender" value="F" type="radio">
+                            </div>
+                        </div>
+                       
+                        <span class="form-control"  id="genderFemaleLabel"> Female </span>
+                    </div>                       
+                    
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Birthday</span>
+                        </div>                        
+                        <input type="date" class="form-control" id="DOB" placeholder="Birthday"/>
+                       
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">State</span>
+                        </div>
+                        <input type="text" class="form-control col-md-2" id="state_id" placeholder="State" maxlength="2" />
+
+                       
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add()">Add</button>
+                <button type="button" class="btn btn-primary" id="btnUpdate" style="display:none;" onclick="Update()">Update</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="resetForm()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
